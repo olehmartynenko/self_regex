@@ -39,3 +39,47 @@ def is_close_set(char):
 
 def is_literal(char):
     return char.isalpha() or char.isdigit() or char in ' :/'
+
+def is_alternate(term):
+    return is_open_alternate(term[0]) and is_close_alternate(term[-1])
+
+def is_set(term):
+    return is_open_set(term[0]) and is_close_set(term[-1])
+
+def is_unit(term):
+    return is_literal(term[0]) or is_dot(term[0]) or is_set(term) or is_escape_sequence(term)
+
+def split_alternate(alternate):
+    return alternate[1:-1].split('|')
+
+def split_set(set_head):
+    set_inside = set_head[1:-1]
+    set_terms = list(set_inside)
+    return set_terms
+
+def split_expression(expression):
+    head = None
+    operator = None
+    rest = None
+    last_expression_pos = 0
+
+    if is_open_set(expression[0]):
+        last_expression_pos = expression.find(']') + 1
+        head = expression[:last_expression_pos]
+    elif is_open_alternate(expression[0]):
+        last_expression_pos = expression.find(')') + 1
+        head = expression[:last_expression_pos]
+    elif is_escape(expression[0]):
+        last_expression_pos += 2
+        head = expression[:2]
+    else:
+        last_expression_pos = 1
+        head = expression[0]
+
+    if last_expression_pos < len(expression) and is_operator(expression[last_expression_pos]):
+        operator = expression[last_expression_pos]
+        last_expression_pos += 1
+
+    rest = expression[last_expression_pos:]
+
+    return head, operator, rest
