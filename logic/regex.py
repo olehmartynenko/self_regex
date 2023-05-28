@@ -83,3 +83,25 @@ def split_expression(expression):
     rest = expression[last_expression_pos:]
 
     return head, operator, rest
+
+def does_unit_match(expression, string):
+    head, operator, rest = split_expression(expression)
+
+    if len(string) == 0:
+        return False
+    if is_literal(head):
+        return expression[0] == string[0]
+    elif is_dot(head):
+        return True
+    elif is_escape_sequence(head):
+        if head == '\\a':              # \a here for alpha (a-z || A-Z)
+            return string[0].isalpha()
+        elif head == '\\d':
+            return string[0].isdigit()
+        else:
+            return False
+    elif is_set(head):
+        set_terms = split_set(head)
+        return string[0] in set_terms
+
+    return False
