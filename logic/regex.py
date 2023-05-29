@@ -105,3 +105,82 @@ def does_unit_match(expression, string):
         return string[0] in set_terms
 
     return False
+
+def match_star(expression, string, match_length):
+    return match_multiple(expression, string, match_length, None, None)
+
+
+def match_plus(expression, string, match_length):
+    return match_multiple(expression, string, match_length, 1, None)
+
+
+def match_question(expression, string, match_length):
+    return match_multiple(expression, string, match_length, 0, 1)
+
+
+def match_alternate(expression, string, match_length):
+    head, operator, rest = split_expression(expression)
+    options = split_alternate(head)
+
+    for option in options:
+        [matched, new_match_length] = match_expression(
+            option + rest, string, match_length
+        )
+        if matched:
+            return [matched, new_match_length]
+
+    return [False, None]
+
+def match_multiple(expression, string, match_length, min_match_length=None, max_match_length=None):
+    head, operator, rest = split_expression(expression)
+
+    if not min_match_length:
+        min_match_length = 0
+
+    submatch_length = -1
+
+    while not max_match_length or (submatch_length < max_match_length):
+        [subexpr_matched, subexpr_length] = match_expression(
+            (head * (submatch_length + 1)), string, match_length
+        )
+        if subexpr_matched:
+            submatch_length += 1
+        else:
+            break
+
+    while submatch_length >= min_match_length:
+        [matched, new_match_length] = match_expression(
+            (head * submatch_length) + rest, string, match_length
+        )
+        if matched:
+            return [matched, new_match_length]
+        submatch_length -= 1
+
+    return [False, None]
+
+def match_expression(expression, string, match_length=0):
+    if len(expression) == 0:
+        return [True, match_length]
+    elif is_end(expression[0]):
+        if len(string) == 0:
+            return [True, match_length]
+        else:
+            return [False, None]
+
+    head, operator, rest = split_expression(expression)
+
+    if is_star(operator):
+        return match_star(expression, string, match_length)
+    elif is_plus(operator):
+        return match_plus(expression, string, match_length)
+    elif is_question(operator):
+        return match_question(expression, string, match_length)
+    elif is_alternate(head):
+        return match_alternate(expression, string, match_length)
+    elif is_unit(head):
+        if does_unit_match(expression, string):
+            return match_expression(rest, string[1:], match_length + 1)
+    else:
+        print(f'Unknown token in expression {expression}.')
+
+    return [False, None]
