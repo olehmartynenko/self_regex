@@ -27,4 +27,40 @@ class RegexMatcherTests(unittest.TestCase):
         self.assertTrue(is_operator('+'))
         self.assertTrue(is_operator('?'))
         self.assertFalse(is_operator('a'))
-        
+
+    def test_is_dot(self):
+        self.assertTrue(is_dot('.'))
+        self.assertFalse(is_dot('a'))
+    
+    def test_is_escape_sequence(self):
+        self.assertTrue(is_escape_sequence('\\a'))
+        self.assertFalse(is_escape_sequence('a'))
+    
+    def test_is_escape(self):
+        self.assertTrue(is_escape('\\'))
+        self.assertFalse(is_escape('a'))
+    
+    def test_is_open_alternate(self):
+        self.assertTrue(is_open_alternate('('))
+        self.assertFalse(is_open_alternate('a'))
+    
+    def test_is_close_alternate(self):
+        self.assertTrue(is_close_alternate(')'))
+        self.assertFalse(is_close_alternate('a'))
+    
+    def test_is_open_set(self):
+        self.assertTrue(is_open_set('['))
+        self.assertFalse(is_open_set('a'))
+    
+    def test_is_close_set(self):
+        self.assertTrue(is_close_set(']'))
+        self.assertFalse(is_close_set('a'))
+    
+    def test_is_literal(self):
+        self.assertTrue(is_literal('a'))
+        self.assertTrue(is_literal('1'))
+        self.assertTrue(is_literal(' '))
+        self.assertTrue(is_literal(':'))
+        self.assertTrue(is_literal('/'))
+        self.assertFalse(is_literal('*'))
+    
