@@ -63,4 +63,17 @@ class RegexMatcherTests(unittest.TestCase):
         self.assertTrue(is_literal(':'))
         self.assertTrue(is_literal('/'))
         self.assertFalse(is_literal('*'))
+
+    def test_is_alternate(self):
+        self.assertTrue(is_alternate('(a|b)'))
+        self.assertFalse(is_alternate('a'))
     
+    def test_is_set(self):
+        self.assertTrue(is_set('[XYZ]'))
+        self.assertFalse(is_set('a'))
+    
+    def test_is_unit(self):
+        self.assertTrue(is_unit('.'))
+        self.assertTrue(is_unit('[XYZ]'))
+        self.assertTrue(is_unit('\\a'))
+        self.assertFalse(is_unit('('))
