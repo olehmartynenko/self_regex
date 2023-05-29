@@ -21,4 +21,10 @@ class RegexMatcherTests(unittest.TestCase):
     def test_is_question(self):             
         self.assertTrue(is_question('?'))
         self.assertFalse(is_question('a'))
+    
+    def test_is_operator(self): 
+        self.assertTrue(is_operator('*'))
+        self.assertTrue(is_operator('+'))
+        self.assertTrue(is_operator('?'))
+        self.assertFalse(is_operator('a'))
         
