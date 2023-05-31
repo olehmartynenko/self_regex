@@ -184,3 +184,18 @@ def match_expression(expression, string, match_length=0):
         print(f'Unknown token in expression {expression}.')
 
     return [False, None]
+
+def match(expression, string):
+    match_pos = 0
+    matched = False
+    if is_start(expression[0]):
+        max_match_pos = 0
+        expression = expression[1:]
+    else:
+        max_match_pos = len(string) - 1
+    while not matched and match_pos <= max_match_pos:
+        [matched, match_length] = match_expression(expression, string[match_pos:])
+        if matched:
+            return string[match_pos:match_pos + match_length]
+        match_pos += 1
+    return [False, None, None]
