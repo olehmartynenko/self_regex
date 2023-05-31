@@ -77,3 +77,40 @@ class RegexMatcherTests(unittest.TestCase):
         self.assertTrue(is_unit('[XYZ]'))
         self.assertTrue(is_unit('\\a'))
         self.assertFalse(is_unit('('))
+    
+    def test_split_alternate(self):
+        self.assertEqual(split_alternate('(a|b)'), ['a', 'b'])
+        self.assertEqual(split_alternate('(a)'), ['a'])
+        self.assertEqual(split_alternate('(a|b|c|d|e)'), ['a', 'b', 'c', 'd', 'e'])
+    
+    def test_split_set(self):
+        self.assertEqual(split_set('[XYZ]'), ['X', 'Y', 'Z'])
+        self.assertEqual(split_set('[357]'), ['3', '5', '7'])
+    
+    def test_does_unit_match(self):
+        self.assertTrue(does_unit_match('a', 'a'))
+        self.assertTrue(does_unit_match('.', 'a'))
+        self.assertTrue(does_unit_match('[abc]', 'a'))
+        self.assertFalse(does_unit_match('[xyz]', 'a'))
+    
+    def test_match_multiple(self):
+        self.assertTrue(match_multiple('a', 'a', 0))
+        self.assertTrue(match_multiple('a*', 'aaaa', 0))
+        self.assertTrue(match_multiple('a*', '', 0))
+    
+    def test_match_plus(self):
+        self.assertTrue(match_plus('a+', 'aaaa', 0))
+        self.assertFalse(match_plus('a+', '', 0)[0])
+    
+    def test_match_question(self):
+        self.assertTrue(match_question('a?', 'a', 0))
+        self.assertTrue(match_question('a?', '', 0))
+    
+    def test_match_star(self):
+        self.assertTrue(match_star('a*', 'aaaa', 0))
+        self.assertTrue(match_star('a*', '', 0))
+    
+    def test_match_alternate(self):
+        self.assertTrue(match_alternate('(a|b)', 'a', 0))
+        self.assertTrue(match_alternate('(a|b)', 'b', 0))
+        self.assertFalse(match_alternate('(a|b)', 'c', 0)[0])
