@@ -114,3 +114,12 @@ class RegexMatcherTests(unittest.TestCase):
         self.assertTrue(match_alternate('(a|b)', 'a', 0))
         self.assertTrue(match_alternate('(a|b)', 'b', 0))
         self.assertFalse(match_alternate('(a|b)', 'c', 0)[0])
+
+    def test_match_expression(self):
+        self.assertTrue(match_expression('abc*', 'abccc'))
+        self.assertTrue(match_expression('a[bc](x|y)+', 'abxxxyy'))
+        self.assertFalse(match_expression('a[bc]z+', 'abxxxyyz')[0])
+
+    def test_match(self):
+        self.assertEqual(match('abc*', 'abccc'), 'abccc')
+        self.assertEqual(match('a[bc](x|y)+', 'abxxxyy'), 'abxxxyy')

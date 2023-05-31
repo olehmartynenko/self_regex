@@ -196,6 +196,6 @@ def match(expression, string):
     while not matched and match_pos <= max_match_pos:
         [matched, match_length] = match_expression(expression, string[match_pos:])
         if matched:
-            return [matched, match_pos, match_length]
+            return string[match_pos:match_pos + match_length]
         match_pos += 1
     return [False, None, None]
