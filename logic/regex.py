@@ -185,7 +185,11 @@ def match_expression(expression, string, match_length=0):
 
     return [False, None]
 
-def match(expression, string):
+def match(expression, string, res=None):
+    if res is None:
+        res = []
+    if expression == '':
+        return res
     match_pos = 0
     matched = False
     if is_start(expression[0]):
@@ -196,6 +200,13 @@ def match(expression, string):
     while not matched and match_pos <= max_match_pos:
         [matched, match_length] = match_expression(expression, string[match_pos:])
         if matched:
-            return string[match_pos:match_pos + match_length]
+            if string[match_pos:match_pos + match_length] == '':
+                match_pos += 1
+                return match(expression, string[match_pos + match_length:])
+            else:
+                res.append(string[match_pos:match_pos + match_length])
+                match_pos += 1
+                return match(expression, string[match_pos + match_length:], res)
         match_pos += 1
-    return [False, None, None]
+
+    return res
