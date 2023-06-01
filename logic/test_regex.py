@@ -121,5 +121,6 @@ class RegexMatcherTests(unittest.TestCase):
         self.assertFalse(match_expression('a[bc]z+', 'abxxxyyz')[0])
 
     def test_match(self):
-        self.assertEqual(match('abc*', 'abccc'), 'abccc')
-        self.assertEqual(match('a[bc](x|y)+', 'abxxxyy'), 'abxxxyy')
+        self.assertEqual(match('abc*', 'abccc'), ['abccc'])
+        self.assertEqual(match('a[bc](x|y)+', 'abxxxyy'), ['abxxxyy'])
+        self.assertEqual(match('a+[bc]?', 'aaaxaaxab'), ['aaa', 'aa', 'ab'])
