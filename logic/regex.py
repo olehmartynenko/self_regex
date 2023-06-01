@@ -202,7 +202,7 @@ def match(expression, string, res=None):
         if matched:
             if string[match_pos:match_pos + match_length] == '':
                 match_pos += 1
-                return match(expression, string[match_pos + match_length:])
+                return match(expression, string[match_pos + match_length:], res)
             else:
                 res.append(string[match_pos:match_pos + match_length])
                 match_pos += 1
