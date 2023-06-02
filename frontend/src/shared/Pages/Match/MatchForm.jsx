@@ -11,10 +11,14 @@ const validationSchema = yup.object({
 
 const MatchForm = ({ setResultText, setStep }) => {
   const onSubmit = async (values) => {
+    
     try {
       const response = await api.post('/match', values)
       setStep(1)
-      setResultText(response.data.text)
+      const matches = response.data.matches
+      debugger
+
+      setResultText(matches.join(','))
     } catch (error) {
       alert('Something went wrong')
     }

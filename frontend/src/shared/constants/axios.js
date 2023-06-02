@@ -4,5 +4,4 @@ const BASE_URL = 'http://localhost:8000'
 
 export const api = axios.create({
   baseURL: BASE_URL,
-  withCredentials: true,
 })
