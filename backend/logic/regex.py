@@ -202,7 +202,7 @@ def match(expression, string, res=None):
         if matched:
             if string[match_pos:match_pos + match_length] == '':
                 match_pos += 1
-                return match(expression, string[match_pos + match_length:])
+                return match(expression, string[match_pos + match_length:], res)
             else:
                 res.append(string[match_pos:match_pos + match_length])
                 match_pos += 1
@@ -210,3 +210,11 @@ def match(expression, string, res=None):
         match_pos += 1
 
     return res
+
+def replace_matches(expression, string, replacement):
+    matches = match(expression, string)
+    matches.sort(key=len)
+    matches.reverse()
+    for entry in matches:
+        string = string.replace(entry, replacement)
+    return string

@@ -124,3 +124,9 @@ class RegexMatcherTests(unittest.TestCase):
         self.assertEqual(match('abc*', 'abccc'), ['abccc'])
         self.assertEqual(match('a[bc](x|y)+', 'abxxxyy'), ['abxxxyy'])
         self.assertEqual(match('a+[bc]?', 'aaaxaaxab'), ['aaa', 'aa', 'ab'])
+    
+    def test_replace_matches(self):
+        self.assertEqual(replace_matches('abc*', 'abccc', 'XYZ'), 'XYZ')
+        self.assertEqual(replace_matches('a[bc](x|y)+', 'abxxxyy', 'XYZ'), 'XYZ')
+        self.assertEqual(replace_matches('a+[bc]?', 'aaaxaaaaaxab', 'XYZ'), 'XYZxXYZxXYZ')
+        
