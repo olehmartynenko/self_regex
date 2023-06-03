@@ -1,6 +1,6 @@
 import { Button, Stack, TextField, Typography } from '@mui/material'
 import { useFormik } from 'formik'
-import React from 'react'
+import React, { useState } from 'react'
 import * as yup from 'yup'
 import { api } from '../../constants/axios'
 
@@ -9,16 +9,13 @@ const validationSchema = yup.object({
   regex: yup.string().required('Regex is required'),
 })
 
-const MatchForm = ({ setResultText, setStep }) => {
+const MatchForm = () => {
+  const [resultText, setResultText] = useState('')
+
   const onSubmit = async (values) => {
-    
     try {
       const response = await api.post('/match', values)
-      setStep(1)
-      const matches = response.data.matches
-      debugger
-
-      setResultText(matches.join(','))
+      setResultText(response.data.text)
     } catch (error) {
       alert('Something went wrong')
     }
@@ -59,6 +56,20 @@ const MatchForm = ({ setResultText, setStep }) => {
           Submit
         </Button>
       </Stack>
+      {resultText && (
+        <Typography
+          variant='body1'
+          mt={4}
+          sx={{
+            border: '2px solid #B799FF',
+            borderRadius: 4,
+            p: 2,
+            bgcolor: 'rgba(172, 188, 255, 0.25)',
+          }}
+        >
+          {resultText}
+        </Typography>
+      )}
     </form>
   )
 }

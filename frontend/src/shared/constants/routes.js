@@ -1,4 +1,5 @@
 const ROUTES = {
+  HOME: '/',
   MATCH: '/match',
   REPLACE: '/replace',
 }

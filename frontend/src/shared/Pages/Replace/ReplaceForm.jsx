@@ -1,6 +1,6 @@
 import { Button, Stack, TextField, Typography } from '@mui/material'
 import { useFormik } from 'formik'
-import { default as React } from 'react'
+import { default as React, useState } from 'react'
 import * as yup from 'yup'
 import { api } from '../../constants/axios'
 
@@ -10,12 +10,15 @@ const validationSchema = yup.object({
   replace: yup.string().required('Replace is required'),
 })
 
-const ReplaceForm = ({ setResultText, setStep }) => {
+const ReplaceForm = () => {
+  const [resultText, setResultText] = useState('')
+
   const onSubmit = async (values) => {
     try {
       const response = await api.post('/replace', values)
-      setStep(1)
-      setResultText(response.data.result)
+      const matches = response.data.matches
+
+      setResultText(matches.join(','))
     } catch (error) {
       alert('Something went wrong')
     }
@@ -65,6 +68,20 @@ const ReplaceForm = ({ setResultText, setStep }) => {
           Submit
         </Button>
       </Stack>
+      {resultText && (
+        <Typography
+          variant='body1'
+          mt={4}
+          sx={{
+            border: '2px solid #B799FF',
+            borderRadius: 4,
+            p: 2,
+            bgcolor: 'rgba(172, 188, 255, 0.25)',
+          }}
+        >
+          {resultText}
+        </Typography>
+      )}
     </form>
   )
 }
