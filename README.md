@@ -18,6 +18,7 @@ cd backend
 On Unix systems:
 ```bash
 python3 -m venv venv
+source venv/bin/activate
 pip install flask
 pip install flask_cors
 python3 server.py
@@ -25,6 +26,7 @@ python3 server.py
 On Windows
 ```shell
 python -m venv venv
+venv\Scripts\activate
 pip install flask
 pip install flask_cors
 python server.py
