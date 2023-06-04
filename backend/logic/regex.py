@@ -233,7 +233,6 @@ def find_match(expression, string, res=None):
                 return find_match(expression, string[match_pos + match_length:], res)
             else:
                 res.append(string[match_pos:match_pos + match_length])
-                match_pos += 1
                 return find_match(expression, string[match_pos + match_length:], res)
         match_pos += 1
 
@@ -253,6 +252,8 @@ def match(expression, string):
     try:
         result = find_match(expression, string)
     except:
-        result = 'Invalid expression'
+        result = ['Invalid expression']
 
     return result
+
+print(match('a', 'aaabab'))
