@@ -341,7 +341,7 @@ class RegexMatcherTests(unittest.TestCase):
         # Assert
         self.assertEqual(true, ['aaaabcc', 'abc'])
         self.assertEqual(false, [])
-        self.assertEqual(error, 'Invalid expression')
+        self.assertEqual(error, ['Invalid expression'])
     
     def test_replace_matches(self):
         # Arrange
