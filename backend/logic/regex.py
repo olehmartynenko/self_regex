@@ -255,5 +255,3 @@ def match(expression, string):
         result = ['Invalid expression']
 
     return result
-
-print(match('a', 'aaabab'))
