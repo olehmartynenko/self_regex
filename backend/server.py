@@ -4,6 +4,7 @@ from logic.regex import *
 
 app = Flask(__name__)
 cors = CORS(app)
+PORT = 8000
 
 @app.route('/replace', methods=['POST'])
 def handle_text():
@@ -12,7 +13,6 @@ def handle_text():
     regex = data['regex']
     replacement = data['replace']
     result = replace_matches(regex, text, replacement)
-    print(result)
     return jsonify({'result': result})
 
 @app.route('/match', methods=['POST'])
@@ -21,8 +21,7 @@ def handle_match():
     text = data['text']
     regex = data['regex']
     matches = match(regex, text)
-    print(matches)
     return jsonify({'matches': matches})
 
 if __name__ == '__main__':
-    app.run(port=8000)
+    app.run(port=PORT)
