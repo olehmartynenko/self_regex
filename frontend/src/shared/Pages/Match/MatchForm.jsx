@@ -15,7 +15,7 @@ const MatchForm = () => {
   const onSubmit = async (values) => {
     try {
       const response = await api.post('/match', values)
-      setResultText(response.data.text)
+      setResultText(response.data.matches.join(', '))
     } catch (error) {
       alert('Something went wrong')
     }

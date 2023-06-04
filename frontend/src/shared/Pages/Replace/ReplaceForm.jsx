@@ -16,9 +16,9 @@ const ReplaceForm = () => {
   const onSubmit = async (values) => {
     try {
       const response = await api.post('/replace', values)
-      const matches = response.data.matches
+      const text = response.data.result
 
-      setResultText(matches.join(','))
+      setResultText(text)
     } catch (error) {
       alert('Something went wrong')
     }
