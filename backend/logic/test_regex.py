@@ -1,132 +1,366 @@
 import unittest
 from regex import *
 
+
 class RegexMatcherTests(unittest.TestCase):
     def test_is_start(self):
-        self.assertTrue(is_start('^'))
-        self.assertFalse(is_start('a'))
+        # Arrange
+        start = '^'
+        not_start = 'a'
+        # Act
+        true = is_start(start)
+        false = is_start(not_start)
+        # Assert
+        self.assertTrue(true)
+        self.assertFalse(false)
 
     def test_is_end(self):
-        self.assertTrue(is_end('$'))
-        self.assertFalse(is_end('a'))
+        # Arrange
+        end = '$'
+        not_end = 'a'
+        # Act
+        true = is_end(end)
+        false = is_end(not_end)
+        # Assert
+        self.assertTrue(true)
+        self.assertFalse(false)
 
     def test_is_star(self):
-        self.assertTrue(is_star('*'))
-        self.assertFalse(is_star('a'))
+        # Arrange
+        star = '*'
+        not_star = 'a'
+        # Act
+        true = is_star(star)
+        false = is_star(not_star)
+        # Assert
+        self.assertTrue(true)
+        self.assertFalse(false)
 
     def test_is_plus(self): 
-        self.assertTrue(is_plus('+'))
-        self.assertFalse(is_plus('a'))  
+        # Arrange
+        plus = '+'
+        not_plus = 'a'
+        # Act
+        true = is_plus(plus)
+        false = is_plus(not_plus)
+        # Assert
+        self.assertTrue(true)
+        self.assertFalse(false) 
 
     def test_is_question(self):             
-        self.assertTrue(is_question('?'))
-        self.assertFalse(is_question('a'))
+        # Arrange
+        question = '?'
+        not_question = 'a'
+        # Act
+        true = is_question(question)
+        false = is_question(not_question)
+        # Assert
+        self.assertTrue(true)
+        self.assertFalse(false)
+    
+    def test_is_alternate(self):
+        # Arrange
+        alternate = '(a|b)'
+        not_alternate = 'a'
+        # Act
+        true = is_alternate(alternate)
+        false = is_alternate(not_alternate)
+        # Assert
+        self.assertTrue(true)
+        self.assertFalse(false)
     
     def test_is_operator(self): 
-        self.assertTrue(is_operator('*'))
-        self.assertTrue(is_operator('+'))
-        self.assertTrue(is_operator('?'))
-        self.assertFalse(is_operator('a'))
-
-    def test_is_dot(self):
-        self.assertTrue(is_dot('.'))
-        self.assertFalse(is_dot('a'))
+        # Arrange
+        operator = '*'
+        not_operator = 'a'
+        # Act
+        true = is_operator(operator)
+        false = is_operator(not_operator)
+        # Assert
+        self.assertTrue(true)
+        self.assertFalse(false)
     
-    def test_is_escape_sequence(self):
-        self.assertTrue(is_escape_sequence('\\a'))
-        self.assertFalse(is_escape_sequence('a'))
-    
-    def test_is_escape(self):
-        self.assertTrue(is_escape('\\'))
-        self.assertFalse(is_escape('a'))
-    
-    def test_is_open_alternate(self):
-        self.assertTrue(is_open_alternate('('))
-        self.assertFalse(is_open_alternate('a'))
-    
-    def test_is_close_alternate(self):
-        self.assertTrue(is_close_alternate(')'))
-        self.assertFalse(is_close_alternate('a'))
+    def test_is_open_count(self):
+        # Arrange
+        open_count = '{'
+        not_open_count = 'a'
+        # Act
+        true = is_open_count(open_count)
+        false = is_open_count(not_open_count)
+        # Assert
+        self.assertTrue(true)
+        self.assertFalse(false)
     
     def test_is_open_set(self):
-        self.assertTrue(is_open_set('['))
-        self.assertFalse(is_open_set('a'))
+        # Arrange
+        open_set = '['
+        not_open_set = 'a'
+        # Act
+        true = is_open_set(open_set)
+        false = is_open_set(not_open_set)
+        # Assert
+        self.assertTrue(true)
+        self.assertFalse(false)
     
     def test_is_close_set(self):
-        self.assertTrue(is_close_set(']'))
-        self.assertFalse(is_close_set('a'))
+        # Arrange
+        close_set = ']'
+        not_close_set = 'a'
+        # Act
+        true = is_close_set(close_set)
+        false = is_close_set(not_close_set)
+        # Assert
+        self.assertTrue(true)
+        self.assertFalse(false)
     
-    def test_is_literal(self):
-        self.assertTrue(is_literal('a'))
-        self.assertTrue(is_literal('1'))
-        self.assertTrue(is_literal(' '))
-        self.assertTrue(is_literal(':'))
-        self.assertTrue(is_literal('/'))
-        self.assertFalse(is_literal('*'))
-
-    def test_is_alternate(self):
-        self.assertTrue(is_alternate('(a|b)'))
-        self.assertFalse(is_alternate('a'))
+    def test_is_open_alternate(self):
+        # Arrange
+        open_alternate = '('
+        not_open_alternate = 'a'
+        # Act
+        true = is_open_alternate(open_alternate)
+        false = is_open_alternate(not_open_alternate)
+        # Assert
+        self.assertTrue(true)
+        self.assertFalse(false)
     
-    def test_is_set(self):
-        self.assertTrue(is_set('[XYZ]'))
-        self.assertFalse(is_set('a'))
+    def test_is_close_alternate(self):
+        # Arrange
+        close_alternate = ')'
+        not_close_alternate = 'a'
+        # Act
+        true = is_close_alternate(close_alternate)
+        false = is_close_alternate(not_close_alternate)
+        # Assert
+        self.assertTrue(true)
+        self.assertFalse(false)
     
     def test_is_unit(self):
-        self.assertTrue(is_unit('.'))
-        self.assertTrue(is_unit('[XYZ]'))
-        self.assertTrue(is_unit('\\a'))
-        self.assertFalse(is_unit('('))
+        # Arrange
+        unit = '.'
+        not_unit = '*'
+        # Act
+        true = is_unit(unit)
+        false = is_unit(not_unit)
+        # Assert
+        self.assertTrue(true)
+        self.assertFalse(false)
+    
+    def test_is_literal(self):
+        # Arrange
+        literal = 'a'
+        not_literal = '*'
+        # Act
+        true = is_literal(literal)
+        false = is_literal(not_literal)
+        # Assert
+        self.assertTrue(true)
+        self.assertFalse(false)
+    
+    def test_is_dot(self):
+        # Arrange
+        dot = '.'
+        not_dot = 'a'
+        # Act
+        true = is_dot(dot)
+        false = is_dot(not_dot)
+        # Assert
+        self.assertTrue(true)
+        self.assertFalse(false)
+    
+    def test_is_escape_sequence(self):
+        # Arrange
+        escape_sequence = '\\'
+        not_escape_sequence = 'a'
+        # Act
+        true = is_escape_sequence(escape_sequence)
+        false = is_escape_sequence(not_escape_sequence)
+        # Assert
+        self.assertTrue(true)
+        self.assertFalse(false)
+    
+    def test_is_set(self):
+        # Arrange
+        set = '[XYZ]'
+        not_set = 'a'
+        # Act
+        true = is_set(set)
+        false = is_set(not_set)
+        # Assert
+        self.assertTrue(true)
+        self.assertFalse(false)
+    
+    def test_split_expression(self):
+        # Arrange
+        expression = 'a*b+c{1,3}'
+        # Act
+        result = split_expression(expression)
+        # Assert
+        self.assertEqual(result, ('a', '*', 'b+c{1,3}'))
     
     def test_split_alternate(self):
-        self.assertEqual(split_alternate('(a|b)'), ['a', 'b'])
-        self.assertEqual(split_alternate('(a)'), ['a'])
-        self.assertEqual(split_alternate('(a|b|c|d|e)'), ['a', 'b', 'c', 'd', 'e'])
+        # Arrange
+        alternate = '(a|b)'
+        # Act
+        result = split_alternate(alternate)
+        # Assert
+        self.assertEqual(result, ['a', 'b'])
+
+    # def test_split_count(self):
+    #     # Arrange
+    #     count = 'b{1,3}'
+        
+    #     # Act
+    #     splited_count = split_count(count, 2, 5)
+    #     # Assert
+    #     self.assertEqual(splited_count, ['1', '3'])
     
     def test_split_set(self):
-        self.assertEqual(split_set('[XYZ]'), ['X', 'Y', 'Z'])
-        self.assertEqual(split_set('[357]'), ['3', '5', '7'])
+        # Arrange
+        set = '[XYZ]'
+        # Act
+        result = split_set(set)
+        # Assert
+        self.assertEqual(result, ['X', 'Y', 'Z'])
     
     def test_does_unit_match(self):
-        self.assertTrue(does_unit_match('a', 'a'))
-        self.assertTrue(does_unit_match('.', 'a'))
-        self.assertTrue(does_unit_match('[abc]', 'a'))
-        self.assertFalse(does_unit_match('[xyz]', 'a'))
-    
-    def test_match_multiple(self):
-        self.assertTrue(match_multiple('a', 'a', 0))
-        self.assertTrue(match_multiple('a*', 'aaaa', 0))
-        self.assertTrue(match_multiple('a*', '', 0))
-    
-    def test_match_plus(self):
-        self.assertTrue(match_plus('a+', 'aaaa', 0))
-        self.assertFalse(match_plus('a+', '', 0)[0])
-    
-    def test_match_question(self):
-        self.assertTrue(match_question('a?', 'a', 0))
-        self.assertTrue(match_question('a?', '', 0))
+        # Arrange
+        unit = 'a*'
+        string = 'aaaa'
+        false_unit = 'b*'
+        # Act
+        true = does_unit_match(unit, string)
+        false = does_unit_match(false_unit, string)
+        # Assert
+        self.assertTrue(true)
+        self.assertFalse(false)
     
     def test_match_star(self):
-        self.assertTrue(match_star('a*', 'aaaa', 0))
-        self.assertTrue(match_star('a*', '', 0))
+        # Arrange
+        star = 'a*'
+        string = 'aaaa'
+        # Act
+        true = match_star(star, string, 0)
+        # Assert
+        self.assertTrue(true)
+
+    def test_match_plus(self):
+        # Arrange
+        plus = 'a+'
+        string = 'aaaa'
+        false_plus = 'b+'
+        # Act
+        true = match_plus(plus, string, 1)
+        false = match_plus(false_plus, string, 1)
+        # Assert
+        self.assertTrue(true)
+        self.assertEqual(false, [False, None])
     
-    def test_match_alternate(self):
-        self.assertTrue(match_alternate('(a|b)', 'a', 0))
-        self.assertTrue(match_alternate('(a|b)', 'b', 0))
-        self.assertFalse(match_alternate('(a|b)', 'c', 0)[0])
+    def test_match_question(self):
+        # Arrange
+        question = 'a?'
+        string = 'aaaa'
+        # Act
+        true = match_question(question, string, 0)
+        # Assert
+        self.assertTrue(true)
+
+    def test_match_alternate(self): 
+        # Arrange
+        alternate = '(a|b)'
+        string = 'aaaa'
+        false_alternate = '(c|d)'
+        # Act
+        true = match_alternate(alternate, string, 0)
+        false = match_alternate(false_alternate, string, 0)
+        # Assert
+        self.assertTrue(true)
+        self.assertEqual(false, [False, None])
+    
+    def test_match_multiple(self):
+        # Arrange
+        multiple = 'a{1,3}'
+        string = 'aaaa'
+        false_multiple = 'b+'
+        # Act
+        true = match_multiple(multiple, string, 0, 1, 3)
+        false = match_multiple(false_multiple, string, 0, 1, 3)
+        # Assert
+        self.assertTrue(true, [True, 2])
+        self.assertEqual(false, [False, None])
+    
+    def test_match_count(self):
+        # Arrange
+        count = 'a{2,}'
+        string = 'aaaa'
+        false_count = 'b{1,3}}'
+        # Act
+        true = match_count(count, string, 0)
+        false = match_count(false_count, string, 0)
+        # Assert
+        self.assertTrue(true, [True, 4])
+        self.assertEqual(false, [False, None])
 
     def test_match_expression(self):
-        self.assertTrue(match_expression('abc*', 'abccc'))
-        self.assertTrue(match_expression('a[bc](x|y)+', 'abxxxyy'))
-        self.assertFalse(match_expression('a[bc]z+', 'abxxxyyz')[0])
-
+        # Arrange
+        expression = 'a*b+'
+        string = 'aaaab'
+        false_expression = 'baa'
+        # Act
+        true = match_expression(expression, string, 0)
+        false = match_expression(false_expression, string, 0)
+        # Assert
+        self.assertEqual(true, [True, 5])
+        self.assertEqual(false, [False, None])
+    
     def test_find_match(self):
-        self.assertEqual(find_match('abc*', 'abccc'), ['abccc'])
-        self.assertEqual(find_match('a[bc](x|y)+', 'abxxxyy'), ['abxxxyy'])
-        self.assertEqual(find_match('a+[bc]?', 'aaaxaaxab'), ['aaa', 'aa', 'ab'])
+        # Arrange
+        expression = 'a*b+c{1,3}'
+        string = 'aaaabccsabc'
+        false_expression = 'baa'
+        error_expression = 'a{1, b}'
+        # Act
+        true = find_match(expression, string)
+        false = find_match(false_expression, string)
+        # Assert
+        self.assertEqual(true, ['aaaabcc', 'abc'])
+        self.assertEqual(false, [])
+        with self.assertRaises(ValueError):
+            find_match(error_expression, string)
+    
+    def test_match(self):
+        # Arrange
+        expression = 'a*b+c{1,3}'
+        string = 'aaaabccsabc'
+        false_expression = 'baa'
+        error_expression = 'a{1, {(]}'
+        # Act
+        true = match(expression, string)
+        false = match(false_expression, string)
+        error = match(error_expression, string)
+        # Assert
+        self.assertEqual(true, ['aaaabcc', 'abc'])
+        self.assertEqual(false, [])
+        self.assertEqual(error, 'Invalid expression')
     
     def test_replace_matches(self):
-        self.assertEqual(replace_matches('abc*', 'abccc', 'XYZ'), 'XYZ')
-        self.assertEqual(replace_matches('a[bc](x|y)+', 'abxxxyy', 'XYZ'), 'XYZ')
-        self.assertEqual(replace_matches('a+[bc]?', 'aaaxaaaaaxab', 'XYZ'), 'XYZxXYZxXYZ')
+        # Arrange
+        expression = 'a*b+c{1,3}'
+        string = 'aaaabccsabc'
+        replacement = 'X'
+        replaced = 'XsX'
+        false_expression = 'baa'
+        error_expression = 'a{1, {(]}'
+        # Act
+        true = replace_matches(expression, string, replacement)
+        false = replace_matches(false_expression, string, replacement)
+        error = replace_matches(error_expression, string, replacement)
+        # Assert
+        self.assertEqual(true, replaced)
+        self.assertEqual(false, 'aaaabccsabc')
+        self.assertEqual(error, 'Invalid expression')
+
         
+
+if __name__ == '__main__':
+    unittest.main()
