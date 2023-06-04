@@ -124,6 +124,9 @@ def split_expression(expression):
             begin_count = last_expression_pos + 1
             last_expression_pos = expression.find('}') + 1
             operator = expression[begin_count:last_expression_pos - 1].split(',')
+        else:
+            operator = expression[last_expression_pos]
+            last_expression_pos += 1
 
     rest = expression[last_expression_pos:]
 
