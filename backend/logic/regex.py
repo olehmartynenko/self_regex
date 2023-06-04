@@ -213,8 +213,7 @@ def match(expression, string, res=None):
 
 def replace_matches(expression, string, replacement):
     matches = match(expression, string)
-    matches.sort(key=len)
-    matches.reverse()
+    matches.sort(key=len, reverse=True)
     for entry in matches:
         string = string.replace(entry, replacement)
     return string
