@@ -1,46 +1,6 @@
 def is_start(char):
     return char == '^'
 
-# def validate(expression):
-#     if expression == '':
-#         return True
-#     for i in range(len(expression)):
-#         if expression[i] == '}':
-#             if expression.find('{') > i or expression.find('{') == -1:
-#                 return False
-#             else:
-#                 continue
-#         elif expression[i] == '{':
-#             if expression.find('}') < i:
-#                 return False
-#             else:
-#                 expression.replace('}', ' ', 1)
-#                 continue
-#         elif expression[i] == ')':
-#             if expression.find('(') > i or expression.find('(') == -1:
-#                 return False
-#             else:
-#                 continue
-#         elif expression[i] == '(':
-#             if expression.find(')') < i:
-#                 return False
-#             else:
-#                 expression.replace(')', ' ', 1)
-#                 continue
-#         elif expression[i] == ']':
-#             if expression.find('[') > i or expression.find('[') == -1:
-#                 return False
-#             else:
-#                 continue
-#         elif expression[i] == '[':
-#             if expression.find(']') < i:
-#                 return False
-#             else:
-#                 expression.replace(']', ' ', 1)
-#                 continue
-#     return True
-
-
 def is_end(char):
     return char == '$'
 
