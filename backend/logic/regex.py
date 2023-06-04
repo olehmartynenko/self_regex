@@ -1,6 +1,46 @@
 def is_start(char):
     return char == '^'
 
+# def validate(expression):
+#     if expression == '':
+#         return True
+#     for i in range(len(expression)):
+#         if expression[i] == '}':
+#             if expression.find('{') > i or expression.find('{') == -1:
+#                 return False
+#             else:
+#                 continue
+#         elif expression[i] == '{':
+#             if expression.find('}') < i:
+#                 return False
+#             else:
+#                 expression.replace('}', ' ', 1)
+#                 continue
+#         elif expression[i] == ')':
+#             if expression.find('(') > i or expression.find('(') == -1:
+#                 return False
+#             else:
+#                 continue
+#         elif expression[i] == '(':
+#             if expression.find(')') < i:
+#                 return False
+#             else:
+#                 expression.replace(')', ' ', 1)
+#                 continue
+#         elif expression[i] == ']':
+#             if expression.find('[') > i or expression.find('[') == -1:
+#                 return False
+#             else:
+#                 continue
+#         elif expression[i] == '[':
+#             if expression.find(']') < i:
+#                 return False
+#             else:
+#                 expression.replace(']', ' ', 1)
+#                 continue
+#     return True
+
+
 def is_end(char):
     return char == '$'
 
@@ -14,7 +54,7 @@ def is_question(char):
     return char == '?'
 
 def is_operator(char):
-    return is_star(char) or is_plus(char) or is_question(char)
+    return is_star(char) or is_plus(char) or is_question(char) or is_open_count(char)
 
 def is_dot(char):
     return char == '.'
@@ -30,6 +70,9 @@ def is_open_alternate(char):
 
 def is_close_alternate(char):
     return char == ')'
+
+def is_open_count(char):
+    return char == '{'
 
 def is_open_set(char):
     return char == '['
@@ -77,8 +120,10 @@ def split_expression(expression):
         head = expression[0]
 
     if last_expression_pos < len(expression) and is_operator(expression[last_expression_pos]):
-        operator = expression[last_expression_pos]
-        last_expression_pos += 1
+        if is_open_count(expression[last_expression_pos]):
+            begin_count = last_expression_pos + 1
+            last_expression_pos = expression.find('}') + 1
+            operator = expression[begin_count:last_expression_pos - 1].split(',')
 
     rest = expression[last_expression_pos:]
 
@@ -131,6 +176,24 @@ def match_alternate(expression, string, match_length):
 
     return [False, None]
 
+def match_count(expression, string, match_length):
+    head, operator, rest = split_expression(expression)
+    min_match_length = None
+    max_match_length = None
+    try:
+        min_match_length = int(operator[0])
+    except:
+        if operator[0] != '':
+            raise ValueError('Invalid expression')
+            
+    try:    
+        max_match_length = int(operator[1])
+    except:
+        if operator[1] != '':
+            raise ValueError('Invalid expression')
+            
+    return match_multiple(expression, string, match_length, min_match_length, max_match_length)
+
 def match_multiple(expression, string, match_length, min_match_length=None, max_match_length=None):
     head, operator, rest = split_expression(expression)
 
@@ -166,7 +229,7 @@ def match_expression(expression, string, match_length=0):
             return [True, match_length]
         else:
             return [False, None]
-
+    
     head, operator, rest = split_expression(expression)
 
     if is_star(operator):
@@ -175,6 +238,8 @@ def match_expression(expression, string, match_length=0):
         return match_plus(expression, string, match_length)
     elif is_question(operator):
         return match_question(expression, string, match_length)
+    elif type(operator) is list:
+        return match_count(expression, string, match_length)
     elif is_alternate(head):
         return match_alternate(expression, string, match_length)
     elif is_unit(head):
@@ -185,7 +250,7 @@ def match_expression(expression, string, match_length=0):
 
     return [False, None]
 
-def match(expression, string, res=None):
+def find_match(expression, string, res=None):
     if res is None:
         res = []
     if expression == '':
@@ -202,18 +267,29 @@ def match(expression, string, res=None):
         if matched:
             if string[match_pos:match_pos + match_length] == '':
                 match_pos += 1
-                return match(expression, string[match_pos + match_length:], res)
+                return find_match(expression, string[match_pos + match_length:], res)
             else:
                 res.append(string[match_pos:match_pos + match_length])
                 match_pos += 1
-                return match(expression, string[match_pos + match_length:], res)
+                return find_match(expression, string[match_pos + match_length:], res)
         match_pos += 1
 
     return res
 
 def replace_matches(expression, string, replacement):
     matches = match(expression, string)
-    matches.sort(key=len, reverse=True)
+    if matches == 'Invalid expression':
+        return 'Invalid expression'
+    matches.sort(key=len)
+    matches.reverse()
     for entry in matches:
         string = string.replace(entry, replacement)
     return string
+
+def match(expression, string):
+    try:
+        result = find_match(expression, string)
+    except:
+        result = 'Invalid expression'
+
+    return result
