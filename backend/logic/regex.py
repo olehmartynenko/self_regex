@@ -60,6 +60,11 @@ def split_set(set_head):
     set_terms = list(set_inside)
     return set_terms
 
+def split_count(expression, begin, end):
+    count_inside = expression[begin:end]
+    count_numbers = count_inside.split(',')
+    return count_numbers
+
 def split_expression(expression):
     head = None
     operator = None
@@ -83,7 +88,7 @@ def split_expression(expression):
         if is_open_count(expression[last_expression_pos]):
             begin_count = last_expression_pos + 1
             last_expression_pos = expression.find('}') + 1
-            operator = expression[begin_count:last_expression_pos - 1].split(',')
+            operator = split_count(expression, begin_count, last_expression_pos - 1)
         else:
             operator = expression[last_expression_pos]
             last_expression_pos += 1
