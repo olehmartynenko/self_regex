@@ -358,7 +358,7 @@ class RegexMatcherTests(unittest.TestCase):
         # Assert
         self.assertEqual(true, replaced)
         self.assertEqual(false, 'aaaabccsabc')
-        self.assertEqual(error, ['Invalid expression'])
+        self.assertEqual(error, 'Invalid expression')
 
         
 

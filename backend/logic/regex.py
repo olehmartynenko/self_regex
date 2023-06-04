@@ -240,7 +240,7 @@ def find_match(expression, string, res=None):
 
 def replace_matches(expression, string, replacement):
     matches = match(expression, string)
-    if matches == 'Invalid expression':
+    if matches == ['Invalid expression']:
         return 'Invalid expression'
     matches.sort(key=len)
     matches.reverse()
