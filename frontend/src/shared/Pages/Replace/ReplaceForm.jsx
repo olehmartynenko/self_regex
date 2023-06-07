@@ -17,8 +17,12 @@ const ReplaceForm = () => {
     try {
       const response = await api.post('/replace', values)
       const text = response.data.result
-
-      setResultText(text)
+      if (values.text === text) {
+        setResultText('No matches found. Check your regex')
+      }
+      else {
+        setResultText(text)
+      }
     } catch (error) {
       alert('Something went wrong')
     }
