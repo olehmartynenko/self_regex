@@ -15,7 +15,14 @@ const MatchForm = () => {
   const onSubmit = async (values) => {
     try {
       const response = await api.post('/match', values)
-      setResultText(response.data.matches.join(', '))
+      const matches = response.data.matches
+      debugger
+      if (matches.length === 0) {
+        setResultText('No matches found. Check your regex')
+      }
+      else {
+        setResultText(matches.join(', '))
+      }
     } catch (error) {
       alert('Something went wrong')
     }
